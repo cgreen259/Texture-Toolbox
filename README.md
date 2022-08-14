@@ -15,19 +15,19 @@ Global:
   Kurtosis
 
 GLCM:
-  Energy, 
-  Contrast, 
-  Entropy, 
-  Homogeneity, 
-  Correlation, 
-  SumAverage, 
-  Variance, 
-  Dissimilarity, 
-  AutoCorrelation
+  * Energy, 
+  * Contrast, 
+  * Entropy, 
+  * Homogeneity, 
+  * Correlation, 
+  * SumAverage, 
+  * Variance, 
+  * Dissimilarity, 
+  * AutoCorrelation
   
 GLRLM:
-  SRE   (Short Run length Emphasis), 
-  LRE   (Long Run length Emphasis), 
+  * SRE   (Short Run length Emphasis), 
+* LRE   (Long Run length Emphasis), 
   GLN   (Grey Level Non-uniformity), 
   RLN   (Run Length Non-uniformity), 
   RP    (Run Percentage), 
