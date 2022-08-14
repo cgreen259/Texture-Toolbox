@@ -9,12 +9,12 @@ Requires fortran compiler
 Available features
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Global:
-  Variance, 
-  Skewness, 
-  Kurtosis
+- Global:
+  * Variance, 
+  * Skewness, 
+  * Kurtosis
 
-GLCM:
+- GLCM:
   * Energy, 
   * Contrast, 
   * Entropy, 
@@ -25,41 +25,41 @@ GLCM:
   * Dissimilarity, 
   * AutoCorrelation
   
-GLRLM:
+- GLRLM:
   * SRE   (Short Run length Emphasis), 
-* LRE   (Long Run length Emphasis), 
-  GLN   (Grey Level Non-uniformity), 
-  RLN   (Run Length Non-uniformity), 
-  RP    (Run Percentage), 
-  LGRE  (Low Grey level Run Emphasis), 
-  HGRE  (High Grey level Run Emphasis), 
-  SRLGE (Short Run Low Grey level Emphasis), 
-  SRHGE (Short Run High Grey level Emphasis), 
-  LRLGE (Long Run Low Grey level Emphasis), 
-  LRHGE (Long Run High Grey level Emphasis), 
-  GLV   (Grey Level Variance), 
-  RLV   (Run Length Variance)
+  * LRE   (Long Run length Emphasis), 
+  * GLN   (Grey Level Non-uniformity), 
+  * RLN   (Run Length Non-uniformity), 
+  * RP    (Run Percentage), 
+  * LGRE  (Low Grey level Run Emphasis), 
+  * HGRE  (High Grey level Run Emphasis), 
+  * SRLGE (Short Run Low Grey level Emphasis), 
+  * SRHGE (Short Run High Grey level Emphasis), 
+  * LRLGE (Long Run Low Grey level Emphasis), 
+  * LRHGE (Long Run High Grey level Emphasis), 
+  * GLV   (Grey Level Variance), 
+  * RLV   (Run Length Variance)
 
-GLSZM:
-  SZE   (Small Zone Emphasis), 
-  LZE   (Large Zone Emphasis), 
-  GLN   (Grey Level Non-uniformity), 
-  ZSN   (Zone Size Non-uniformity), 
-  ZP    (Zone Percentage), 
-  LGZE  (Low Grey level Zone Emphasis), 
-  HGZE  (High Grey level Zone Emphasis), 
-  SZLGE (Small Zone Low Grey Emphasis), 
-  SZHGE (Small Zone High Grey Emphasis), 
-  LZLGE (Large Zome Low Grey Emphasis), 
-  LZHGE (Large Zone High Grey Emphasis), 
-  GLV   (Grey Level Variance), 
-  ZSV   (Zone SIze Variance)
+- GLSZM:
+  * SZE   (Small Zone Emphasis), 
+  * LZE   (Large Zone Emphasis), 
+  * GLN   (Grey Level Non-uniformity), 
+  * ZSN   (Zone Size Non-uniformity), 
+  * ZP    (Zone Percentage), 
+  * LGZE  (Low Grey level Zone Emphasis), 
+  * HGZE  (High Grey level Zone Emphasis), 
+  * SZLGE (Small Zone Low Grey Emphasis), 
+  * SZHGE (Small Zone High Grey Emphasis), 
+  * LZLGE (Large Zome Low Grey Emphasis), 
+  * LZHGE (Large Zone High Grey Emphasis), 
+  * GLV   (Grey Level Variance), 
+  * ZSV   (Zone Size Variance)
   
-NGTDM:
-  Coarseness, 
-  Contrast, 
-  Busyness, 
-  Complexity, 
-  Strength
+- NGTDM:
+  * Coarseness, 
+  * Contrast, 
+  * Busyness, 
+  * Complexity, 
+  * Strength
 
 
