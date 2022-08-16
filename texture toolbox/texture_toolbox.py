@@ -1,5 +1,5 @@
-import numpy as np
 from glcm import glcm2d, glcm3d
+import numpy as np
 from glszm import glszm2d, glszm3d
 from glrlm import glrlm2d, glrlm3d
 from ngtdm import ngtdm2d, ngtdm3d
@@ -210,8 +210,9 @@ class features:
         
         glcm_ = glcm_ / np.sum(glcm_)
         
-        width = glcm_.shape[0]
-        row_num, col_num = np.mgrid[0:width, 0:width] #i, j
+        glcm_height, glcm_width = glcm_.shape
+        
+        row_num, col_num = np.mgrid[0:glcm_height, 0:glcm_width] #i, j
         
         row_num = row_num +1
         col_num = col_num +1
@@ -220,9 +221,11 @@ class features:
         row_g = row_num * glcm_
         col_g = col_num * glcm_
         
-        indVect = np.arange(1,width+1)
+        indVect = np.arange(1,glcm_height+1)
+        jndVect = np.arange(1, glcm_width+1)
+        
         ui = np.sum(indVect * np.sum(glcm_, 1))
-        uj = np.sum(indVect * np.sum(glcm_, 0))
+        uj = np.sum(jndVect * np.sum(glcm_, 0))
         
         row_ui = row_num - ui
         col_uj = col_num - uj
@@ -246,7 +249,7 @@ class features:
         """See last feature, relies on variance """
         
         """Sum Average """
-        coeff = (0.5 / (width * width))
+        coeff = (0.5 / (glcm_height * glcm_width))
         f_[5] =  coeff * np.nansum((row_g) + (col_g))
         
         """Variance """
@@ -260,7 +263,7 @@ class features:
         f_[8] = np.nansum(row_g*col_num)
         
         """Correlation """
-        f_[4] = np.sum(((row_ui) * (col_uj)) * glcm_) / (f_[6]+1E-10) / (width*width)
+        f_[4] = np.sum(((row_ui) * (col_uj)) * glcm_) / (f_[6]+1E-10) / (glcm_height*glcm_width)
         
         return f_
     
@@ -539,7 +542,7 @@ class features:
 ###############################################################################
 class Quantise:
     
-    def FBN(image, levels):
+    def rebin(image, levels):
         im2 = image.copy()
         im2 = np.round(im2)
         
