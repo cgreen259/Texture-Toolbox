@@ -1,10 +1,11 @@
-from glcm import glcm2d, glcm3d
+from GLCM import glcm
+from scipy.stats import skew, kurtosis
+
 import numpy as np
 from glszm import glszm2d, glszm3d
 from glrlm import glrlm2d, glrlm3d
 from ngtdm import ngtdm2d, ngtdm3d
 import math
-from scipy.stats import skew, kurtosis
 
 class Matrix:
     ###############################################################################
