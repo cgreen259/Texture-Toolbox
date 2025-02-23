@@ -1,9 +1,9 @@
 from GLCM import glcm
 from GLRLM import glrlm
+from GLSZM import glszm
 from scipy.stats import skew, kurtosis
 
 import numpy as np
-from glszm import glszm2d, glszm3d
 from ngtdm import ngtdm2d, ngtdm3d
 import math
 
