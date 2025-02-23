@@ -2,8 +2,8 @@
 	SUBROUTINE ngtdm2d(image, ngtdm, x, y, maxvalue)
 !   Calculate NGTDM of 2D array
 
-	integer :: x, y, i, j, i2, j2, maxvalue, gl
-	real :: ngtdm(0:maxvalue), image(1:x,1:y), mysum 
+	INTEGER :: x, y, i, j, maxvalue, gl
+	REAL :: ngtdm(0:maxvalue), image(1:x,1:y), mysum 
  
 !f2py intent(in) image, ngtdm, x, y
 !f2py intent(out) ngtdm
@@ -24,8 +24,8 @@
 	SUBROUTINE ngtdm3d(image, ngtdm, x, y, z, maxvalue)
 !   Calculate NGTDM of 3D array
 
-	integer :: x, y, i, j, k, i2, j2, k2, maxvalue, gl
-	real :: ngtdm(0:maxvalue), image(1:x,1:y, 1:z), mysum 
+	INTEGER :: x, y, z, i, j, k, maxvalue, gl
+	REAL :: ngtdm(0:maxvalue), image(1:x,1:y, 1:z), mysum 
  
 !f2py intent(in) image, ngtdm, x, y
 !f2py intent(out) ngtdm

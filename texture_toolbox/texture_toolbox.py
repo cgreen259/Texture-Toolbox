@@ -1,10 +1,10 @@
 from GLCM import glcm
 from GLRLM import glrlm
 from GLSZM import glszm
+from NGTDM import ngtdm
 from scipy.stats import skew, kurtosis
 
 import numpy as np
-from ngtdm import ngtdm2d, ngtdm3d
 import math
 
 class Matrix:
