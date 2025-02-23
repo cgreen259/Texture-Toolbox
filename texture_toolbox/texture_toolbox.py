@@ -1,10 +1,11 @@
-from glcm import glcm2d, glcm3d
-import numpy as np
-from glszm import glszm2d, glszm3d
-from glrlm import glrlm2d, glrlm3d
-from ngtdm import ngtdm2d, ngtdm3d
-import math
+from GLCM import glcm
+from GLRLM import glrlm
+from GLSZM import glszm
+from NGTDM import ngtdm
 from scipy.stats import skew, kurtosis
+
+import numpy as np
+import math
 
 class Matrix:
     ###############################################################################
@@ -36,9 +37,9 @@ class Matrix:
             
         glcm_ = np.zeros((i_max+1, i_max+1))
         if image_.ndim == 2:
-            glcm_ = glcm2d(image_, glcm_, i_max, i_min, image.shape[0], image.shape[1])
+            glcm_ = glcm.glcm2d(image_, glcm_, i_max, i_min, image.shape[0], image.shape[1])
         elif image_.ndim == 3:
-            glcm_ = glcm3d(image_, glcm_, i_max, i_min, image.shape[0], image.shape[1], image.shape[2])
+            glcm_ = glcm.glcm3d(image_, glcm_, i_max, i_min, image.shape[0], image.shape[1], image.shape[2])
         output = glcm_.copy()
         
         if normalise == True:
@@ -71,7 +72,7 @@ class Matrix:
             glrlm_sum = np.zeros((maxvalue+1, x*y+1))
             for idx in range(angles.shape[0]):
                 glrlm_ = np.zeros((maxvalue+1, x*y+1))
-                glrlm_ = glrlm2d(array_, glrlm_, x, y, maxvalue, minvalue, angles[idx,:], s[idx])
+                glrlm_ = glrlm.glrlm2d(array_, glrlm_, x, y, maxvalue, minvalue, angles[idx,:], s[idx])
                 glrlm_sum += glrlm_
             
         elif array_.ndim == 3:
@@ -98,7 +99,7 @@ class Matrix:
             for idx in range(13):
                 if idx in[0,1,2,3,4,5,6,7,8,9,10,11,12]:
                     glrlm_ = np.zeros((maxvalue+1, x*y*z+1))
-                    glrlm_ = glrlm3d(array_, glrlm_, x, y, z, maxvalue, minvalue, angles[idx,:], s[idx])
+                    glrlm_ = glrlm.glrlm3d(array_, glrlm_, x, y, z, maxvalue, minvalue, angles[idx,:], s[idx])
                     glrlm_sum += glrlm_
     
     
@@ -117,12 +118,12 @@ class Matrix:
         if array_.ndim == 2:
             x,y = array_.shape
             glszm_ = np.zeros((maxvalue+1, x*y+1))
-            glszm_ = glszm2d(array_, glszm_, x, y, maxvalue, minvalue)
+            glszm_ = glszm.glszm2d(array_, glszm_, x, y, maxvalue, minvalue)
             
         elif array_.ndim == 3:
             x, y, z = array_.shape
             glszm_ = np.zeros((maxvalue+1, x*y*z+1))
-            glszm_ = glszm3d(array_, glszm_, x, y, z, maxvalue, minvalue)
+            glszm_ = glszm.glszm3d(array_, glszm_, x, y, z, maxvalue, minvalue)
     
         glszm_ = Matrix.crop_matrix(glszm_)
         
@@ -153,10 +154,10 @@ class Matrix:
         
         if array_.ndim == 2:
             x, y = array_.shape
-            ngtdm_ = ngtdm2d(array_.astype(float), ngtdm_array, x, y, maxvalue)
+            ngtdm_ = ngtdm.ngtdm2d(array_.astype(float), ngtdm_array, x, y, maxvalue)
         elif array_.ndim == 3:
             x, y, z = array_.shape
-            ngtdm_ = ngtdm3d(array_.astype(float), ngtdm_array, x, y, z, maxvalue)
+            ngtdm_ = ngtdm.ngtdm3d(array_.astype(float), ngtdm_array, x, y, z, maxvalue)
             
         return ngtdm_, counts
 

@@ -3,9 +3,9 @@
 !
 !     Calculate GLSZM of 2D array
 !
-	integer :: x, y, val1, i, j, maxvalue, zone_size, minvalue
-	integer :: glszm(0:maxvalue,0:x*y)
-	integer :: image(1:x,1:y)
+	INTEGER :: x, y, val1, i, j, maxvalue, zone_size, minvalue
+	INTEGER :: glszm(0:maxvalue,0:x*y)
+	INTEGER :: image(1:x,1:y)
 	  
 !f2py intent(in) image, glszm, x, y, maxvalue, minvalue
 !f2py intent(out) glszm
@@ -32,10 +32,11 @@
 	
 	END
 	
-	RECURSIVE SUBROUTINE DFS(image, i, j, x, y, val1, zone_size, minvalue)
-		integer, intent(in) :: i, j, x, y, val1, zone_size, minvalue
-		integer, intent(in) :: image(1:x, 1:y)
-		integer, intent(out) :: zone_size
+	RECURSIVE SUBROUTINE DFS(image, i, j, x, y, val1, &
+	zone_size, minvalue)
+		INTEGER, INTENT(in) :: i, j, x, y, val1, minvalue
+		INTEGER, INTENT(inout) :: image(1:x, 1:y)
+		INTEGER, INTENT(inout) :: zone_size
 		
 		if (i .LT. 1 .OR. i .GT. x .OR. j .LT. 1 .OR. j .GT. y .OR. image(i,j) .NE. val1) then
 			return
@@ -59,9 +60,9 @@
 !
 !     Calculate GLSZM of 3D array
 !
-	integer :: x, y, z, val1, i2, j2, k2, zone_size, maxvalue, minvalue
-	integer :: glszm(0:maxvalue,0:x*y*z)
-	integer :: image(1:x, 1:y, 1:z)
+	INTEGER :: x, y, z, val1, i2, j2, k2, zone_size, maxvalue, minvalue
+	INTEGER :: glszm(0:maxvalue,0:x*y*z)
+	INTEGER :: image(1:x, 1:y, 1:z)
 	  
 !f2py intent(in) image, glszm, x, y, z, maxvalue, minvalue
 !f2py intent(out) glszm
@@ -91,9 +92,9 @@
 	END
 	
 	RECURSIVE SUBROUTINE DFS3d(image, i, j, k, x, y, z, val1, zone_size, minvalue)
-		integer, intent(in) :: i, j, k, x, y, z, val1, zone_size, minvalue
-		integer, intent(in) :: image(1:x, 1:y, 1:z)
-		integer, intent(out) :: zone_size
+		INTEGER, INTENT(in) :: i, j, k, x, y, z, val1, minvalue
+		INTEGER, INTENT(inout) :: image(1:x, 1:y, 1:z)
+		INTEGER, INTENT(inout) :: zone_size
 		if (i .LT. 1 .OR. i .GT. x .OR. j .LT. 1 .OR. j .GT. y .OR. k .LT. 1 .OR. k .GT. z .OR. image(i,j,k) .NE. val1) then
 			return
 		else

@@ -1,11 +1,12 @@
 ! FILE: glrlm.f90
-	SUBROUTINE glrlm2d(image, glrlm, x, y, maxvalue, minvalue, angle, s)
+	SUBROUTINE glrlm2d(image, glrlm, x, y, &
+		maxvalue, minvalue, angle, s)
 !   Calculate GLRLM of 2D array
 
-	integer :: x, y, val1, i, j, k, i2, j2, maxvalue, minvalue, rl
-	real :: glrlm(0:maxvalue,0:x*y)
-	integer :: image(1:x,1:y), image_temp(1:x, 1:y), angle(1:2)
-	real :: s
+	INTEGER :: x, y, val1, i, j, k, i2, j2, maxvalue, minvalue, rl
+	REAL :: glrlm(0:maxvalue,0:x*y)
+	INTEGER :: image(1:x,1:y), image_temp(1:x, 1:y), angle(1:2)
+	REAL :: s
 
 !f2py intent(in) image, glrlm, x, y, z, angle, s, minvalue, maxvalue
 !f2py intent(out) glrlm
@@ -30,9 +31,9 @@
 	
 	
 	recursive subroutine calc_rl2d(image_temp, i, j, x, y, a1, a2, val1, rl, minvalue)
-		integer, intent(in) :: i, j, x, y, val1, rl, a1, a2, minvalue
-		integer, intent(in) :: image_temp(1:x, 1:y)
-		integer, intent(out) :: rl
+		INTEGER, INTENT(in) :: i, j, x, y, val1, a1, a2, minvalue
+		INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
+		INTEGER, INTENT(inout) :: rl
 		
 		if (i .LT. 1 .OR. i .GT. x .OR. j .LT. 1 .OR. j .GT. y  .OR. image_temp(i,j) .NE. val1) then
 			return
@@ -49,10 +50,10 @@
 	SUBROUTINE glrlm3d(image, glrlm, x, y, z, maxvalue, minvalue, angle, s)
 !   Calculate GLRLM of 3D array
 
-	integer :: x, y, z, val1, i, j, k, i2, j2, k2, maxvalue, minvalue, rl, a1, a2, a3
-	real :: glrlm(0:maxvalue,0:x*y*z)
-	integer :: image(1:x,1:y,1:z), image_temp(1:x, 1:y, 1:z), angle(1:3)
-	real :: s
+	INTEGER :: x, y, z, val1, i, j, k, i2, j2, k2, maxvalue, minvalue, rl, a1, a2, a3
+	REAL :: glrlm(0:maxvalue,0:x*y*z)
+	INTEGER :: image(1:x,1:y,1:z), image_temp(1:x, 1:y, 1:z), angle(1:3)
+	REAL :: s
 
 !f2py intent(in) image, glrlm, x, y, z, angle, s, minvalue, maxvalue
 !f2py intent(out) glrlm
@@ -82,9 +83,9 @@
 	end subroutine
 	
 	recursive subroutine calc_rl3d(image_temp, i, j, k, x, y, z, a1, a2, a3, val1, rl, minvalue)
-		integer, intent(in) :: i, j, k, x, y, z, val1, rl, a1, a2, a3, minvalue
-		integer, intent(in) :: image_temp(1:x, 1:y, 1:z)
-		integer, intent(out) :: rl
+		INTEGER, INTENT(in) :: i, j, k, x, y, z, val1, a1, a2, a3, minvalue
+		INTEGER, INTENT(inout) :: image_temp(1:x, 1:y, 1:z)
+		INTEGER, INTENT(inout) :: rl
 		
 		if (i .LT. 1 .OR. i .GT. x .OR. j .LT. 1 .OR. j .GT. y .OR. k .LT. 1 .OR. k .GT. z .OR. image_temp(i,j,k) .NE. val1) then
 			return
