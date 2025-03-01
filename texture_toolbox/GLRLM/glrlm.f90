@@ -3,7 +3,7 @@
 		maxvalue, minvalue, angle, s)
 !   Calculate GLRLM of 2D array
 
-	INTEGER :: x, y, val1, i, j, k, i2, j2, maxvalue, minvalue, rl
+	INTEGER :: x, y, val1, i, j, k, i2, j2, maxvalue, minvalue, rl, A
 	REAL :: glrlm(0:maxvalue,0:x*y)
 	INTEGER :: image(1:x,1:y), image_temp(1:x, 1:y), angle(1:2)
 	REAL :: s
@@ -16,34 +16,205 @@
 	image_temp = image
 	minvalue = minvalue - 1
 	
+	! Horizontal run length
 	do i2 = 1, x
-		do j2 = 1, y
-			val1 = image_temp(i2, j2)
-			if (val1 .NE. minvalue) then
-				rl = 0
-				call calc_rl2d(image_temp, i2, j2, x, y, angle(1), angle(2), val1, rl, minvalue)
-				glrlm(val1, rl) = glrlm(val1, rl) + s				
-			end if
+		j = 1
+		do while (j .LT. y+1)
+			rl = 0
+			val1 = image_temp(i2, j)
+			! write (*,*) "start", i2, j, val1
+			call calc_rl2d_horizontal(image_temp, i2, j, x, y, val1, rl)
+			glrlm(val1, rl) = glrlm(val1, rl) + s
+			! val1 = image_temp(i2, j)
+			! write (*,*) "end  ", i2, j, val1, rl
 		end do
 	end do
 
+	! Vertial run length
+	do j2 = 1, y
+		i = 1
+		do while (i .LT. x+1)
+			rl = 0
+			val1 = image_temp(i, j2)
+			! write (*,*) "start", i, j2, val1
+			call calc_rl2d_vertical(image_temp, i, j2, x, y, val1, rl)
+			glrlm(val1, rl) = glrlm(val1, rl) + s
+			! val1 = image_temp(i, j2)
+			! write (*,*) "end  ", i, j2, val1, rl
+		end do
+	end do
+
+	! Down-right run length 
+	! (working)
+	! A = 2
+	! do while (A .LE. (x + y))
+	! 	write (*,*) "---------------------"
+	! 	j = 1
+	! 	do while (j .LT. A)
+	! 		i = A - j
+	! 		if (i .LE. x .AND. j .LE. y) then
+	! 			write (*,*) i, j, image_temp(i,j)
+	! 		end if
+	! 		j = j + 1
+	! 	end do
+	! 	A = A + 1
+	! end do
+
+
+	! Down-Left run length
+	A = 2
+	do while (A .LE. (x + y))
+		write (*,*) "---------------------"
+		j = 1
+		do while (j .LT. A)
+			i = y- (A - j)
+			if (i .GT. 0 .AND. j .LE. y) then
+				write (*,*) x-i, y-j, image_temp(i,j)
+			end if
+			j = j + 1
+		end do
+		A = A + 1
+	end do
+
+
+	! A = x + y
+	! do while (A .GE. 2)
+	! 	write (*,*) "---------------------"
+	! 	j = 1
+	! 	do while (j .LT. A)
+	! 		i = A - j
+	! 		write (*,*) i, j, image_temp(i,j)
+	! 		! if (i .LE. x .AND. j .LE. y) then
+	! 		! 	write (*,*) i, j, image_temp(i,j)
+	! 		! end if
+	! 		j = j + 1
+	! 	end do
+	! 	A = A - 1
+	! end do
+
+	! Down-Left run length
+	! A = y - 1
+	! do while (A .GE. (-1 *(x - 1)))
+	! 	write (*,*) "---------------------"
+	! 	i = 1
+	! 	do while (i .LT. A)
+	! 		j = A + i
+	! 		write (*,*) A, i, j
+	! 		! if (i .LE. x .AND. j .LE. y) then
+	! 		! 	write (*,*) A, i, j, image_temp(i,j)
+	! 		! end if
+	! 		i = i + 1
+	! 	end do
+	! 	A = A - 1
+	! end do
+	! ! Down-right run length
+	! A = x - 1
+	! do while (A .GE. (-1 *(y - 1)))
+	! 	write (*,*) "---------------------"
+	! 	j = 1
+	! 	do while (j .LT. A)
+	! 		i = j - A
+	! 		write (*,*) A, i, j
+	! 		! if (i .LE. x .AND. j .LE. y) then
+	! 		! 	write (*,*) A, i, j, image_temp(i,j)
+	! 		! end if
+	! 		j = j + 1
+	! 	end do
+	! 	A = A - 1
+	! end do
+
 	end subroutine
 	
-	
-	recursive subroutine calc_rl2d(image_temp, i, j, x, y, a1, a2, val1, rl, minvalue)
-		INTEGER, INTENT(in) :: i, j, x, y, val1, a1, a2, minvalue
+	! Horizonal 
+	recursive subroutine calc_rl2d_horizontal(image_temp, i, j, x, y, val1, rl)
+		INTEGER, INTENT(in) :: i, x, y, val1
 		INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
-		INTEGER, INTENT(inout) :: rl
+		INTEGER, INTENT(inout) :: rl, j
 		
-		if (i .LT. 1 .OR. i .GT. x .OR. j .LT. 1 .OR. j .GT. y  .OR. image_temp(i,j) .NE. val1) then
+		if (image_temp(i,j) .NE. val1) then
+			return
+		else if (j .EQ. y) then
+			rl = rl + 1
+			j = j + 1
 			return
 		else
 			rl = rl + 1
+			j = j + 1
 		end if
 		
-		image_temp(i,j) = minvalue
-		call calc_rl2d(image_temp, i+a1, j+a2, x, y, a1, a2, val1, rl, minvalue)
+		call calc_rl2d_horizontal(image_temp, i, j, x, y, val1, rl)
 	end subroutine
+
+	! Vertical
+	recursive subroutine calc_rl2d_vertical(image_temp, i, j, x, y, val1, rl)
+		INTEGER, INTENT(in) :: j, x, y, val1
+		INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
+		INTEGER, INTENT(inout) :: rl, i
+		
+		if (image_temp(i,j) .NE. val1) then
+			return
+		else if (i .EQ. x) then
+			rl = rl + 1
+			i = i + 1
+			return
+		else
+			rl = rl + 1
+			i = i + 1
+		end if
+		
+		call calc_rl2d_vertical(image_temp, i, j, x, y, val1, rl)
+	end subroutine
+
+	! ! Down right
+	! recursive subroutine calc_rl2d_down_right(image_temp, i, j, x, y, val1, rl)
+	! 	INTEGER, INTENT(in) :: x, y, val1
+	! 	INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
+	! 	INTEGER, INTENT(inout) :: rl, i, j
+		
+	! 	if (image_temp(i,j) .NE. val1) then
+	! 		return
+	! 	else if (i .EQ. x .OR. j .EQ. y) then
+	! 		rl = rl + 1
+	! 		i = i + 1
+	! 		j = j +1
+	! 		return
+	! 	else
+	! 		rl = rl + 1
+	! 		i = i + 1
+	! 		j = j + 1
+	! 	end if
+		
+	! 	call calc_rl2d_vertical(image_temp, i, j, x, y, val1, rl)
+	! end subroutine
+	
+	! do i2 = 1, x
+	! 	do j2 = 1, y
+	! 		val1 = image_temp(i2, j2)
+	! 		if (val1 .NE. minvalue) then
+	! 			rl = 0
+	! 			call calc_rl2d(image_temp, i2, j2, x, y, angle(1), angle(2), val1, rl, minvalue)
+	! 			glrlm(val1, rl) = glrlm(val1, rl) + s				
+	! 		end if
+	! 	end do
+	! end do
+
+	! end subroutine
+	
+	
+	! recursive subroutine calc_rl2d(image_temp, i, j, x, y, a1, a2, val1, rl, minvalue)
+	! 	INTEGER, INTENT(in) :: i, j, x, y, val1, a1, a2, minvalue
+	! 	INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
+	! 	INTEGER, INTENT(inout) :: rl
+		
+	! 	if (i .LT. 1 .OR. i .GT. x .OR. j .LT. 1 .OR. j .GT. y  .OR. image_temp(i,j) .NE. val1) then
+	! 		return
+	! 	else
+	! 		rl = rl + 1
+	! 	end if
+		
+	! 	image_temp(i,j) = minvalue
+	! 	call calc_rl2d(image_temp, i+a1, j+a2, x, y, a1, a2, val1, rl, minvalue)
+	! end subroutine
 		
 	
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
