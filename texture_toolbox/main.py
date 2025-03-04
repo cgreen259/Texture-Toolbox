@@ -4,14 +4,14 @@ from pprint import pprint
 import time
 
 np.random.seed(33)
-array = np.random.randint(2,5, size=(3,4))
+array = np.random.randint(2,30, size=(250,250))
 array[-1,-2] = array[-1,-1]
 # array[-2:, -2:] = array[-1,-1]
 # print(array)
 
 # array = np.arange(1, 10*12+1).reshape(10,12)
-array[:,:] = 3
-array = np.arange(1, 13).reshape(3,4)
+# array[:,:] = 3
+# array = np.arange(1, 13).reshape(3,4)
 
 print(array)
 
@@ -30,6 +30,7 @@ print("GLRLM: ", t3-t2)
 print("GLSZM: ", t4-t3)
 print("NGTDM: ", t5-t4)
 
-print("-------------")
-print(array)
-print(glrlm)
+# print("-------------")
+# print(array)
+# print("-----------")
+# print(glrlm)
