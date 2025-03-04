@@ -70,10 +70,16 @@ class Matrix:
             
             x,y = array_.shape
             glrlm_sum = np.zeros((maxvalue+1, x*y+1))
-            for idx in range(angles.shape[0]):
-                glrlm_ = np.zeros((maxvalue+1, x*y+1))
-                glrlm_ = glrlm.glrlm2d(array_, glrlm_, x, y, maxvalue, minvalue, angles[idx,:], s[idx])
-                glrlm_sum += glrlm_
+            # for idx in range(angles.shape[0]):
+            #     glrlm_ = np.zeros((maxvalue+1, x*y+1))
+            #     glrlm_ = glrlm.glrlm2d(array_, glrlm_, x, y, maxvalue, minvalue, angles[idx,:], s[idx])
+            #     glrlm_sum += glrlm_
+            idx = 0
+            glrlm_ = np.zeros((maxvalue+1, x*y+1))
+            glrlm_ = glrlm.glrlm2d(array_, glrlm_, x, y, maxvalue, minvalue, angles[idx,:], s[idx])
+            glrlm_sum += glrlm_
+
+
             
         elif array_.ndim == 3:
             

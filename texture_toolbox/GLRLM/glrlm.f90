@@ -16,112 +16,78 @@
 	image_temp = image
 	minvalue = minvalue - 1
 	
-	! Horizontal run length
-	do i2 = 1, x
+	! ! Horizontal run length
+	! do i2 = 1, x
+	! 	j = 1
+	! 	do while (j .LT. y+1)
+	! 		rl = 0
+	! 		val1 = image_temp(i2, j)
+	! 		! write (*,*) "start", i2, j, val1
+	! 		call calc_rl2d_horizontal(image_temp, i2, j, x, y, val1, rl)
+	! 		glrlm(val1, rl) = glrlm(val1, rl) + s
+	! 		! val1 = image_temp(i2, j)
+	! 		! write (*,*) "end  ", i2, j, val1, rl
+	! 	end do
+	! end do
+
+	! ! Vertial run length
+	! do j2 = 1, y
+	! 	i = 1
+	! 	do while (i .LT. x+1)
+	! 		rl = 0
+	! 		val1 = image_temp(i, j2)
+	! 		! write (*,*) "start", i, j2, val1
+	! 		call calc_rl2d_vertical(image_temp, i, j2, x, y, val1, rl)
+	! 		glrlm(val1, rl) = glrlm(val1, rl) + s
+	! 		! val1 = image_temp(i, j2)
+	! 		! write (*,*) "end  ", i, j2, val1, rl
+	! 	end do
+	! end do
+
+	! Down-Left run length 
+	A = 2
+	do while (A .LE. (x + y))
+		write (*,*) "---------------------"
 		j = 1
-		do while (j .LT. y+1)
+		i = A - j
+		do while (j .LT. A )
+			! write(*,*) "i=", i
 			rl = 0
-			val1 = image_temp(i2, j)
-			! write (*,*) "start", i2, j, val1
-			call calc_rl2d_horizontal(image_temp, i2, j, x, y, val1, rl)
-			glrlm(val1, rl) = glrlm(val1, rl) + s
-			! val1 = image_temp(i2, j)
-			! write (*,*) "end  ", i2, j, val1, rl
+			if (i .GT. 0 .AND. i .LE. x .AND. j .GT. 0 .AND. j .LE. y) then
+				val1 = image_temp(i, j)
+				! write (*,*) i, j, image_temp(i,j)
+				write (*,*) "start", i, j, val1
+				call calc_rl2d_down_left(image_temp, i, j, A, x, y, val1, rl)
+				glrlm(val1, rl) = glrlm(val1, rl) + s
+				write (*,*) "end  ", i, j, val1, rl
+			end if
+			j = j + 1
+			i = A - j
 		end do
+		write(*,*) "BREAK", A, i, j
+		A = A + 1
 	end do
 
-	! Vertial run length
-	do j2 = 1, y
-		i = 1
-		do while (i .LT. x+1)
-			rl = 0
-			val1 = image_temp(i, j2)
-			! write (*,*) "start", i, j2, val1
-			call calc_rl2d_vertical(image_temp, i, j2, x, y, val1, rl)
-			glrlm(val1, rl) = glrlm(val1, rl) + s
-			! val1 = image_temp(i, j2)
-			! write (*,*) "end  ", i, j2, val1, rl
-		end do
-	end do
 
-	! Down-right run length 
-	! (working)
+	! Down-Right run length
 	! A = 2
 	! do while (A .LE. (x + y))
 	! 	write (*,*) "---------------------"
 	! 	j = 1
-	! 	do while (j .LT. A)
-	! 		i = A - j
-	! 		if (i .LE. x .AND. j .LE. y) then
-	! 			write (*,*) i, j, image_temp(i,j)
+	! 	do while (j .LT. A .AND. j .LE. y)
+	! 		i = y - (A - j)
+	! 		rl = 0 
+	! 		if (i .GT. 0 .AND. i .LE. x .AND. j .GT. 0 .AND. j .LE. y) then
+	! 			val1 = image_temp(i, j)
+	! 			! write (*,*) x-i, y-j, image_temp(i,j)
+	! 			call calc_rl2d_down_right(image_temp, i, j, A, x, y, val1, rl)
+	! 			glrlm(val1, rl) = glrlm(val1, rl) + s
 	! 		end if
 	! 		j = j + 1
 	! 	end do
 	! 	A = A + 1
 	! end do
 
-
-	! Down-Left run length
-	A = 2
-	do while (A .LE. (x + y))
-		write (*,*) "---------------------"
-		j = 1
-		do while (j .LT. A)
-			i = y- (A - j)
-			if (i .GT. 0 .AND. j .LE. y) then
-				write (*,*) x-i, y-j, image_temp(i,j)
-			end if
-			j = j + 1
-		end do
-		A = A + 1
-	end do
-
-
-	! A = x + y
-	! do while (A .GE. 2)
-	! 	write (*,*) "---------------------"
-	! 	j = 1
-	! 	do while (j .LT. A)
-	! 		i = A - j
-	! 		write (*,*) i, j, image_temp(i,j)
-	! 		! if (i .LE. x .AND. j .LE. y) then
-	! 		! 	write (*,*) i, j, image_temp(i,j)
-	! 		! end if
-	! 		j = j + 1
-	! 	end do
-	! 	A = A - 1
-	! end do
-
-	! Down-Left run length
-	! A = y - 1
-	! do while (A .GE. (-1 *(x - 1)))
-	! 	write (*,*) "---------------------"
-	! 	i = 1
-	! 	do while (i .LT. A)
-	! 		j = A + i
-	! 		write (*,*) A, i, j
-	! 		! if (i .LE. x .AND. j .LE. y) then
-	! 		! 	write (*,*) A, i, j, image_temp(i,j)
-	! 		! end if
-	! 		i = i + 1
-	! 	end do
-	! 	A = A - 1
-	! end do
-	! ! Down-right run length
-	! A = x - 1
-	! do while (A .GE. (-1 *(y - 1)))
-	! 	write (*,*) "---------------------"
-	! 	j = 1
-	! 	do while (j .LT. A)
-	! 		i = j - A
-	! 		write (*,*) A, i, j
-	! 		! if (i .LE. x .AND. j .LE. y) then
-	! 		! 	write (*,*) A, i, j, image_temp(i,j)
-	! 		! end if
-	! 		j = j + 1
-	! 	end do
-	! 	A = A - 1
-	! end do
 
 	end subroutine
 	
@@ -165,26 +131,77 @@
 		call calc_rl2d_vertical(image_temp, i, j, x, y, val1, rl)
 	end subroutine
 
-	! ! Down right
-	! recursive subroutine calc_rl2d_down_right(image_temp, i, j, x, y, val1, rl)
+	! Down right
+	recursive subroutine calc_rl2d_down_right(image_temp, i, j, A, x, y, val1, rl)
+		INTEGER, INTENT(in) :: x, y, val1
+		INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
+		INTEGER, INTENT(inout) :: rl, i, j, A
+
+		if (image_temp(i,j) .NE. val1 .OR. j .GE. A) then
+			return
+		else if (i .EQ. x .OR. j .EQ. y .OR. i .EQ. 0 .OR. j .EQ. 0) then
+			rl = rl + 1
+			j = j + 1
+			i = A - j
+			return
+		else
+			rl = rl + 1
+			j = j + 1
+			i = A - j
+		end if
+		
+		call calc_rl2d_down_right(image_temp, i, j, A, x, y, val1, rl)
+	end subroutine
+
+
+	! Down Left
+	recursive subroutine calc_rl2d_down_left(image_temp, i, j, A, x, y, val1, rl)
+		INTEGER, INTENT(in) :: x, y, val1
+		INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
+		INTEGER, INTENT(inout) :: rl, i, j, A
+		! write(*,*) image_temp(i,j)
+
+		if (image_temp(i,j) .NE. val1) then
+			write(*,*) "return-1", i, j
+			j = j - 1
+			return
+		else if (j .GE. A .OR. i .EQ. 0 .OR. j .EQ. 0) then
+			write(*,*) "return-3", i, j
+			return
+		else if (i .EQ. x .OR. j .EQ. y) then
+			rl = rl + 1
+			! j = j + 1
+			! i = A - j
+			write(*,*) "return-2", i, j
+			return
+		else
+			rl = rl + 1
+			j = j + 1
+			i = A - j
+		end if
+		
+		call calc_rl2d_down_left(image_temp, i, j, A, x, y, val1, rl)
+	end subroutine
+
+	! recursive subroutine calc_rl2d_down_left(image_temp, i, j, A, x, y, val1, rl)
 	! 	INTEGER, INTENT(in) :: x, y, val1
 	! 	INTEGER, INTENT(inout) :: image_temp(1:x, 1:y)
-	! 	INTEGER, INTENT(inout) :: rl, i, j
+	! 	INTEGER, INTENT(inout) :: rl, i, j, A
 		
-	! 	if (image_temp(i,j) .NE. val1) then
+	! 	if (image_temp(i,j) .NE. val1 .OR. j .GE. A) then
 	! 		return
-	! 	else if (i .EQ. x .OR. j .EQ. y) then
+	! 	else if (i .EQ. x .OR. j .EQ. y .OR. i .EQ. 0 .OR. j .EQ. 0) then
 	! 		rl = rl + 1
-	! 		i = i + 1
-	! 		j = j +1
+	! 		j = j + 1
+	! 		i = A - j
 	! 		return
 	! 	else
 	! 		rl = rl + 1
-	! 		i = i + 1
 	! 		j = j + 1
+	! 		i = A - j
 	! 	end if
 		
-	! 	call calc_rl2d_vertical(image_temp, i, j, x, y, val1, rl)
+	! 	call calc_rl2d_down_left(image_temp, i, j, A, x, y, val1, rl)
 	! end subroutine
 	
 	! do i2 = 1, x
